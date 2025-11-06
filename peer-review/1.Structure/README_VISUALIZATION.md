@@ -4,7 +4,53 @@ This directory contains tools to visualize and understand each step of the infan
 
 ## Tools Available
 
-### 1. Interactive Jupyter Notebook (Recommended for Learning)
+### 1. Detailed QC Script ⭐ NEW - COMPREHENSIVE (Recommended for Production QC)
+
+**File**: `detailed_qc_visualization.py`
+
+**Best for**: Complete quality control of ALL intermediate processing files with automated error detection.
+
+**Features**:
+- Visualizes EVERY intermediate file (orig.mgz, nu.mgz, T1.mgz, brainmask.mgz, etc.)
+- Before/after comparisons for each processing step
+- Automated quality metrics and error detection
+- Template/atlas registration verification
+- Quantitative measurements (volumes, SNR, etc.)
+- Pass/Warning/Error status for each check
+- Generates comprehensive JSON QC report
+- Creates PNG images for all steps
+
+**Usage**:
+```bash
+# Basic usage
+python detailed_qc_visualization.py <subjects_dir> <subject_id>
+
+# With your data
+python detailed_qc_visualization.py \
+    /data02/share/bin-wu/data/human/brain/harvard_mri/processed/freesurfer \
+    sub-01_ses-03 \
+    --ifs-dir /data02/share/bin-wu/data/human/brain/harvard_mri/processed/iFS \
+    --output /path/to/qc_output
+```
+
+**What it checks**:
+1. **Autorecon1**: orig.mgz, rawavg.mgz, nu.mgz, T1.mgz, brainmask.mgz, norm.mgz, talairach.xfm
+2. **Infant FreeSurfer**: iFS aseg.mgz with all label checks
+3. **Label Remapping**: Verifies thalamus labels (9→10, 48→49)
+4. **White Matter**: wm.mgz with label value validation
+5. **Surfaces**: Checks for all surface files and topology
+6. **Quality Metrics**: SNR, volumes, correlations, etc.
+
+**Output**:
+- Individual PNG for each file (01_orig.png, 02_nu.png, 03_T1.png, ...)
+- Comparison PNGs (orig_vs_nu.png, T1_vs_norm.png, ...)
+- Overlay visualizations (T1_with_brainmask.png, T1_with_aseg.png, ...)
+- `qc_report.json` with all checks and status
+- Console output with pass/warning/error summary
+
+**See also**: `INTERMEDIATE_FILES_GUIDE.md` for detailed explanation of every file.
+
+### 2. Interactive Jupyter Notebook (Recommended for Learning)
 
 **File**: `pipeline_visualization.ipynb`
 
@@ -39,7 +85,7 @@ jupyter notebook pipeline_visualization.ipynb
 8. Quality control checklist
 9. Complete command reference
 
-### 2. Quick Visualization Script (Recommended for QC)
+### 3. Quick Visualization Script (Recommended for Quick QC)
 
 **File**: `visualize_pipeline_outputs.py`
 
