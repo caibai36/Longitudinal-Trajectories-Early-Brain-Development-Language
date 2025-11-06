@@ -32,6 +32,17 @@ This version relies entirely on iFS segmentation, which may be less optimal for 
 
 **Removed dependency**: iBEAT2.0 Docker is NO LONGER REQUIRED
 
+---
+
+## ⭐ Even Simpler Alternative: No MATLAB Version
+
+If you want to avoid MATLAB entirely, see **`README_simplified_pipeline.md`** for a pure bash/FreeSurfer version:
+- Script: `reFS_iFS_only_no_matlab.sh`
+- **No iBEAT2, No MATLAB** - only FreeSurfer command-line tools
+- Same functionality, much simpler dependencies
+
+---
+
 ## Usage
 
 ```bash

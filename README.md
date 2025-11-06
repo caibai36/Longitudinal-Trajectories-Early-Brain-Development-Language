@@ -66,15 +66,32 @@ Additional requirements: asymptotic functions also require code supplied here: h
 
 ---
 
-## Alternative Pipeline: Infant FreeSurfer-Only (No iBEAT2)
+## Alternative Pipelines: Simplified Infant FreeSurfer-Only
 
-An alternative structural processing pipeline is available that **removes the iBEAT2 dependency** and uses only Infant FreeSurfer.
+Alternative structural processing pipelines are available with reduced dependencies:
 
+### Option 1: iFS-only (No iBEAT2, Requires MATLAB)
 **Location**: `peer-review/1.Structure/README_iFS_only.md`
 
 **Key files**:
 - `reFS_iFS_only.sh` - Main pipeline script
-- `iFS_aseg_process.m` - Processes iFS segmentation
-- `aseg2wm_iFS.m` - Generates white matter file
+- `iFS_aseg_process.m` - Processes iFS segmentation (MATLAB)
+- `aseg2wm_iFS.m` - Generates white matter file (MATLAB)
 
-**Note**: This simplified approach may produce different segmentation results compared to the hybrid iBEAT2/iFS pipeline used in the published study.
+**Dependencies**: Infant FreeSurfer, FreeSurfer 7.3, MATLAB
+
+### Option 2: iFS-only (No iBEAT2, No MATLAB) ⭐ RECOMMENDED FOR SIMPLICITY
+**Location**: `peer-review/1.Structure/README_simplified_pipeline.md`
+
+**Key files**:
+- `reFS_iFS_only_no_matlab.sh` - Complete bash-only pipeline
+
+**Dependencies**: Infant FreeSurfer, FreeSurfer 7.3 (that's it!)
+
+**Advantages**:
+- Pure bash/FreeSurfer command-line tools
+- No MATLAB license required
+- Easiest to install and run
+- Same functionality as MATLAB version
+
+**Note**: Both simplified approaches may produce different segmentation results compared to the hybrid iBEAT2/iFS pipeline used in the published study.
