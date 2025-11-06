@@ -63,3 +63,18 @@ Additional requirements: the folder containing the above scripts needs to be add
 Required packages: dplyr, reshape, stringr, ggplot2, ggseg, lm.beta, lme4, lmerTest, nlme, mediation, permuco
 Additional requirements: asymptotic functions also require code supplied here: https://github.com/knickmeyer-lab/ORIGINs_ICV-and-Subcortical-volume-development-in-early-childhood.
 
+
+---
+
+## Alternative Pipeline: Infant FreeSurfer-Only (No iBEAT2)
+
+An alternative structural processing pipeline is available that **removes the iBEAT2 dependency** and uses only Infant FreeSurfer.
+
+**Location**: `peer-review/1.Structure/README_iFS_only.md`
+
+**Key files**:
+- `reFS_iFS_only.sh` - Main pipeline script
+- `iFS_aseg_process.m` - Processes iFS segmentation
+- `aseg2wm_iFS.m` - Generates white matter file
+
+**Note**: This simplified approach may produce different segmentation results compared to the hybrid iBEAT2/iFS pipeline used in the published study.
