@@ -34,8 +34,8 @@ export FREESURFER_HOME=/usr/local/freesurfer-8.1.0
 source $FREESURFER_HOME/SetUpFreeSurfer.sh
 export SUBJECTS_DIR=/data/freesurfer
 
-# 2. Import T1w image (5 minutes)
-recon-all -i /path/to/T1w.nii.gz -subjid sub-01_ses-03
+# 2. Import T1w image (import-only, no auto-processing)
+recon-all -i /path/to/T1w.nii.gz -subjid sub-01_ses-03 -noskullstrip
 
 # 3. Create orig.mgz (REQUIRED)
 mri_convert $SUBJECTS_DIR/sub-01_ses-03/mri/orig/001.mgz \
@@ -124,10 +124,10 @@ export FS_LICENSE=$FREESURFER_HOME/license.txt
 # Set subjects directory
 export SUBJECTS_DIR=/data/processed/freesurfer
 
-# Import T1w
-recon-all -i /data/raw/sub-01/anat/T1w.nii.gz -subjid sub-01
+# Import T1w (import-only, prevents auto-processing errors)
+recon-all -i /data/raw/sub-01/anat/T1w.nii.gz -subjid sub-01 -noskullstrip
 
-# Create orig.mgz (REQUIRED)
+# Create orig.mgz (REQUIRED for infant_recon_all)
 mri_convert $SUBJECTS_DIR/sub-01/mri/orig/001.mgz \
             $SUBJECTS_DIR/sub-01/mri/orig.mgz
 
@@ -310,12 +310,13 @@ for SUBJ in "${!SUBJECTS[@]}"; do
 
     echo "Processing $SUBJ (age: $AGE months)..."
 
-    # Import
+    # Import (import-only, no auto-processing)
     recon-all -i $RAW_DIR/$SUBJ/anat/${SUBJ}_T1w.nii.gz \
               -subjid $SUBJ \
-              -sd $SUBJECTS_DIR
+              -sd $SUBJECTS_DIR \
+              -noskullstrip
 
-    # Create orig.mgz (REQUIRED)
+    # Create orig.mgz (REQUIRED for infant_recon_all)
     mri_convert $SUBJECTS_DIR/$SUBJ/mri/orig/001.mgz \
                 $SUBJECTS_DIR/$SUBJ/mri/orig.mgz
 
@@ -429,13 +430,14 @@ export FREESURFER_HOME=/usr/local/freesurfer-8.1.0
 source $FREESURFER_HOME/SetUpFreeSurfer.sh
 export SUBJECTS_DIR=/data02/share/bin-wu/data/human/brain/harvard_mri/processed/freesurfer_fs8
 
-# Import your T1w
+# Import your T1w (import-only, no auto-processing)
 recon-all \
     -i /data02/share/bin-wu/data/human/brain/harvard_mri/raw/new_england/ds006169-1.0.3/sub-01/ses-03/anat/sub-01_ses-03_T1w.nii.gz \
     -subjid sub-01_ses-03 \
-    -sd $SUBJECTS_DIR
+    -sd $SUBJECTS_DIR \
+    -noskullstrip
 
-# Create orig.mgz (REQUIRED)
+# Create orig.mgz (REQUIRED for infant_recon_all)
 mri_convert $SUBJECTS_DIR/sub-01_ses-03/mri/orig/001.mgz \
             $SUBJECTS_DIR/sub-01_ses-03/mri/orig.mgz
 

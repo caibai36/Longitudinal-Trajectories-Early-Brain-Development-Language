@@ -15,12 +15,13 @@ export SUBJECTS_DIR=/data02/share/bin-wu/data/human/brain/harvard_mri/processed/
 # 3. Create subjects directory if it doesn't exist
 mkdir -p $SUBJECTS_DIR
 
-# 4. Import T1w to FreeSurfer format (~5 minutes)
+# 4. Import T1w WITHOUT automatic processing (prevents synthstrip error)
 recon-all -i /data02/share/bin-wu/data/human/brain/harvard_mri/raw/new_england/ds006169-1.0.3/sub-01/ses-03/anat/sub-01_ses-03_T1w.nii.gz \
           -subjid sub-01_ses-03 \
-          -sd $SUBJECTS_DIR
+          -sd $SUBJECTS_DIR \
+          -noskullstrip
 
-# 5. Create orig.mgz (REQUIRED - fixes the FileNotFoundError)
+# 5. Create orig.mgz (REQUIRED - infant_recon_all expects this file)
 mri_convert $SUBJECTS_DIR/sub-01_ses-03/mri/orig/001.mgz \
             $SUBJECTS_DIR/sub-01_ses-03/mri/orig.mgz
 
