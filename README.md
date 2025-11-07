@@ -70,7 +70,9 @@ Additional requirements: asymptotic functions also require code supplied here: h
 
 Alternative structural processing pipelines are available with reduced dependencies:
 
-### Option 1: iFS-only (No iBEAT2, Requires MATLAB)
+### FreeSurfer 7.3 Versions (Original Study Software)
+
+#### Option 1: iFS-only (No iBEAT2, Requires MATLAB)
 **Location**: `peer-review/1.Structure/README_iFS_only.md`
 
 **Key files**:
@@ -80,7 +82,7 @@ Alternative structural processing pipelines are available with reduced dependenc
 
 **Dependencies**: Infant FreeSurfer, FreeSurfer 7.3, MATLAB
 
-### Option 2: iFS-only (No iBEAT2, No MATLAB) ⭐ RECOMMENDED FOR SIMPLICITY
+#### Option 2: iFS-only (No iBEAT2, No MATLAB)
 **Location**: `peer-review/1.Structure/README_simplified_pipeline.md`
 
 **Key files**:
@@ -91,7 +93,54 @@ Alternative structural processing pipelines are available with reduced dependenc
 **Advantages**:
 - Pure bash/FreeSurfer command-line tools
 - No MATLAB license required
-- Easiest to install and run
+- Easiest to install and run (FS7 version)
 - Same functionality as MATLAB version
 
-**Note**: Both simplified approaches may produce different segmentation results compared to the hybrid iBEAT2/iFS pipeline used in the published study.
+**Note**: Both FS7 simplified approaches may produce different segmentation results compared to the hybrid iBEAT2/iFS pipeline used in the published study.
+
+### FreeSurfer 8.1.0 Version ⭐ NEW - SIMPLEST OPTION
+
+#### Option 3: FreeSurfer 8.1.0 Integrated Infant Processing
+**Location**: `peer-review/1.Structure/FS8/`
+
+**Key files**:
+- `FS8/README.md` - Quick start guide
+- `FS8/README_FS8_INFANT_PIPELINE.md` - Complete documentation
+- `FS8/reFS_fs8_infant.sh` - Main pipeline script (just 2 steps!)
+- `FS8/detailed_qc_visualization_fs8.py` - QC tool
+- `FS8/FS7_vs_FS8_COMPARISON.md` - Detailed comparison with FS7
+
+**Dependencies**: FreeSurfer 8.1.0 **ONLY** (nothing else needed!)
+
+**Advantages**:
+- ✅ **Single installation** - No separate Infant FreeSurfer needed
+- ✅ **Simplest workflow** - Just 2 commands instead of 10+ steps
+- ✅ **No MATLAB** - Pure bash/FreeSurfer
+- ✅ **No iBEAT2** - Self-contained
+- ✅ **No label remapping** - Automatic (9→10, 48→49)
+- ✅ **Cleaner structure** - One directory instead of two
+- ✅ **Latest algorithms** - Updated processing methods (2023+)
+- ✅ **Easier QC** - Simplified quality control
+
+**When to use**:
+- ✅ New projects / studies
+- ✅ Want simplest possible workflow
+- ✅ Learning / teaching
+- ✅ Don't need exact replication of original study
+
+**When NOT to use**:
+- ❌ Need exact replication of original study
+- ❌ Must match existing FS7 data
+- ❌ Validation / regulatory requirements for specific version
+
+**Quick comparison**:
+
+| Feature | FS7 + iFS (bash) | FS8 |
+|---------|------------------|-----|
+| Installation | 2 systems | 1 system |
+| Steps | 10+ steps | 2 steps |
+| MATLAB | No | No |
+| iBEAT2 | No | No |
+| Complexity | Medium | **Very Low** |
+
+See `FS8/README.md` for quick start or `FS8/README_FS8_INFANT_PIPELINE.md` for complete guide.
