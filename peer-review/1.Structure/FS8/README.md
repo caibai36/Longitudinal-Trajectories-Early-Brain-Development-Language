@@ -37,10 +37,14 @@ export SUBJECTS_DIR=/data/freesurfer
 # 2. Import T1w image (5 minutes)
 recon-all -i /path/to/T1w.nii.gz -subjid sub-01_ses-03
 
-# 3. Run infant processing (20-30 hours)
+# 3. Create orig.mgz (REQUIRED)
+mri_convert $SUBJECTS_DIR/sub-01_ses-03/mri/orig/001.mgz \
+            $SUBJECTS_DIR/sub-01_ses-03/mri/orig.mgz
+
+# 4. Run infant processing (20-30 hours)
 bash reFS_fs8_infant.sh sub-01_ses-03 6
 
-# 4. Quality control
+# 5. Quality control
 python detailed_qc_visualization_fs8.py $SUBJECTS_DIR sub-01_ses-03
 
 # Done!
@@ -122,6 +126,10 @@ export SUBJECTS_DIR=/data/processed/freesurfer
 
 # Import T1w
 recon-all -i /data/raw/sub-01/anat/T1w.nii.gz -subjid sub-01
+
+# Create orig.mgz (REQUIRED)
+mri_convert $SUBJECTS_DIR/sub-01/mri/orig/001.mgz \
+            $SUBJECTS_DIR/sub-01/mri/orig.mgz
 
 # Run pipeline (adjust age in months)
 bash reFS_fs8_infant.sh sub-01 6
@@ -307,6 +315,10 @@ for SUBJ in "${!SUBJECTS[@]}"; do
               -subjid $SUBJ \
               -sd $SUBJECTS_DIR
 
+    # Create orig.mgz (REQUIRED)
+    mri_convert $SUBJECTS_DIR/$SUBJ/mri/orig/001.mgz \
+                $SUBJECTS_DIR/$SUBJ/mri/orig.mgz
+
     # Process
     bash reFS_fs8_infant.sh $SUBJ $AGE
 
@@ -422,6 +434,10 @@ recon-all \
     -i /data02/share/bin-wu/data/human/brain/harvard_mri/raw/new_england/ds006169-1.0.3/sub-01/ses-03/anat/sub-01_ses-03_T1w.nii.gz \
     -subjid sub-01_ses-03 \
     -sd $SUBJECTS_DIR
+
+# Create orig.mgz (REQUIRED)
+mri_convert $SUBJECTS_DIR/sub-01_ses-03/mri/orig/001.mgz \
+            $SUBJECTS_DIR/sub-01_ses-03/mri/orig.mgz
 
 # Run processing (adjust age)
 bash reFS_fs8_infant.sh sub-01_ses-03 6

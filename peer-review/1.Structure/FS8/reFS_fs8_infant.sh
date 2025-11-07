@@ -97,13 +97,23 @@ if [ ! -d "$SUBJECT_DIR" ]; then
     exit 1
 fi
 
-# Check if orig.mgz exists
+# Check if orig.mgz exists, if not create it from orig/001.mgz
 if [ ! -f "${SUBJECT_DIR}/mri/orig.mgz" ]; then
-    echo "ERROR: orig.mgz not found in ${SUBJECT_DIR}/mri/"
-    echo ""
-    echo "Please import T1w first:"
-    echo "  recon-all -i /path/to/T1w.nii.gz -subjid $SUBJECT_ID"
-    exit 1
+    if [ -f "${SUBJECT_DIR}/mri/orig/001.mgz" ]; then
+        echo "Creating orig.mgz from orig/001.mgz..."
+        mri_convert "${SUBJECT_DIR}/mri/orig/001.mgz" "${SUBJECT_DIR}/mri/orig.mgz"
+        if [ $? -ne 0 ]; then
+            echo "ERROR: Failed to create orig.mgz"
+            exit 1
+        fi
+        echo "✓ orig.mgz created successfully"
+    else
+        echo "ERROR: Neither orig.mgz nor orig/001.mgz found in ${SUBJECT_DIR}/mri/"
+        echo ""
+        echo "Please import T1w first:"
+        echo "  recon-all -i /path/to/T1w.nii.gz -subjid $SUBJECT_ID"
+        exit 1
+    fi
 fi
 
 echo "=========================================================================="
