@@ -18,29 +18,55 @@ The wrapper script `run_infant_fs_no_ibeat.sh` automates everything for you.
 chmod +x run_infant_fs_no_ibeat.sh
 
 # Run from repository root
-./run_infant_fs_no_ibeat.sh <subject_id> <age_months> [raw_t1w_path]
+./run_infant_fs_no_ibeat.sh [options] <subject_id> <age_months> [raw_t1w_path]
 ```
 
 ### Examples:
 
 ```bash
-# Start from scratch with raw T1w
+# Start from scratch with raw T1w (positional arguments)
 ./run_infant_fs_no_ibeat.sh sub-01_ses-03 18 /path/to/T1w.nii.gz
 
 # Or if you already ran recon-all, just provide subject ID and age
 export SUBJECTS_DIR=/path/to/freesurfer_output
 ./run_infant_fs_no_ibeat.sh sub-01_ses-03 18
+
+# Using named arguments (Kaldi style)
+./run_infant_fs_no_ibeat.sh \
+  --subject_id sub-01_ses-03 \
+  --age_months 18 \
+  --raw_t1w /path/to/T1w.nii.gz \
+  --subjects_dir /path/to/output \
+  --num_jobs 30
+
+# Resume from stage 5 (if processing interrupted)
+./run_infant_fs_no_ibeat.sh --stage 5 sub-01_ses-03 18
+
+# Run only stages 0-3 (for testing)
+./run_infant_fs_no_ibeat.sh --stage 0 --stop_stage 3 sub-01_ses-03 18 /path/to/T1w.nii.gz
 ```
+
+### Options:
+
+- `--stage <N>` - Start from stage N (default: 0)
+- `--stop_stage <N>` - Stop at stage N (default: 100)
+- `--subject_id <str>` - Subject ID
+- `--age_months <N>` - Age in months (0-24)
+- `--raw_t1w <path>` - Path to raw T1w image
+- `--subjects_dir <path>` - FreeSurfer SUBJECTS_DIR
+- `--ifs_dir <path>` - Infant FreeSurfer output directory
+- `--num_jobs <N>` - Number of parallel jobs (default: 30)
 
 ### What it does:
 
-1. **Step 1**: Runs `recon-all -all -nonuintensitycor` (if raw T1w provided)
-2. **Step 2**: Cleans up adult files (removes transforms, orig_nu.mgz)
-3. **Step 3**: Runs `infant_recon_all --s <subject> --age <months>`
-4. **Step 4**: Creates `aseg.presurf.mgz` from iFS aseg (fixes thalamus labels 9→10, 48→49)
-5. **Step 5**: Creates `wm.mgz` with labels 110 (WM) and 250 (subcortical GM)
-6. **Step 6**: Calls `fs_autorecon2_end.sh` (white surface reconstruction)
-7. **Step 7**: Calls `fs_autorecon3_wrap.sh` (pial surfaces and statistics)
+- **Stage 0**: Runs `recon-all -all -nonuintensitycor` (if raw T1w provided)
+- **Stage 1**: Cleans up adult files (removes transforms, orig_nu.mgz)
+- **Stage 2**: Runs `infant_recon_all --s <subject> --age <months>`
+- **Stage 3**: Creates `aseg.presurf.mgz` from iFS aseg (fixes thalamus labels 9→10, 48→49)
+- **Stage 4**: Creates `wm.mgz` with labels 110 (WM) and 250 (subcortical GM)
+- **Stage 5**: Calls `fs_autorecon2_end.sh` (white surface reconstruction)
+- **Stage 6**: Calls `fs_autorecon3_wrap.sh` (pial surfaces and statistics)
+- **Stage 7**: Quality control checks
 
 ### Directory structure expected:
 
